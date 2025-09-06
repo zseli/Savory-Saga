@@ -37,7 +37,7 @@ savory-saga/
 ## ⚙️ Getting Started
 
 ### 1. Clone the repository
-git clone https://github.com/<your-username>/savory-saga.git
+git clone https://github.com/zseli/Savory-Saga.git
 cd savory-saga
 
 1. Backend Setup
