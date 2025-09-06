@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<title>Two Ingredient Recipes</title>
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets/socicon/css/styles.css">
+  <link rel="stylesheet" href="assets/animatecss/animate.css">
+  <link rel="stylesheet" href="js/theme/css/style.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap">
+  </noscript>
+  <link rel="stylesheet" href="css/additional.css" type="text/css">
+</head>
+<style>:root{ --background: #FEEFEC; --dominant-color: #F55D3E; --primary-color: #F0C808; --secondary-color: #4D5E85; --success-color: #20AC6B; --danger-color: #AE1E2C; --warning-color: #CC9900; --info-color: #0AA3C2; --background-text: #000000; --dominant-text: #FFFFFF; --primary-text: #000000; --secondary-text: #FFFFFF; --success-text: #FFFFFF; --danger-text: #FFFFFF; --warning-text: #000000; --info-text: #FFFFFF;}</style>
+   <script>
+    function goToDetails(recipeId) {
+    	console.log("i am");
+        window.location.href = '/onerecipe/' + recipeId;
+    }
+</script>
+<body>
+<style>
+  .cid-u5PQBJWf8V {  
+      	padding-top: 5rem;
+		padding-bottom: 1rem;
+		background-image: url('recipeimages/addrecipebg2.png');
+		background-size: cover;
+      
+  }
+
+  .cid-u5PQBJWf8V .item-subtitle {
+      line-height: 1.2;
+      color:#ffffff;
+  }
+
+  .cid-u5PQBJWf8V img,
+  .cid-u5PQBJWf8V .item-img {
+      width: 100%;
+      height: 100%;
+      height: 300px;
+      object-fit: cover;
+  }
+
+  .cid-u5PQBJWf8V .item:focus,
+  .cid-u5PQBJWf8V span:focus {
+      outline: none;
+  }
+
+  .cid-u5PQBJWf8V .item {
+      margin-bottom: 2rem;
+  }
+
+  @media (max-width: 767px) {
+      .cid-u5PQBJWf8V .item {
+          margin-bottom: 1rem;
+      }
+  }
+
+  .cid-u5PQBJWf8V .item-wrapper {
+      position: relative;
+      border-radius: 4px;
+      height: 100%;
+      display: flex;
+      margin-left:20px;
+      flex-flow: column nowrap;
+  }
+
+  .cid-u5PQBJWf8V .mbr-section-title {
+      color:#ffffff;
+  }
+
+  .cid-u5PQBJWf8V .mbr-text,
+  .cid-u5PQBJWf8V .mbr-section-btn {
+      color:#ffffff;
+  }
+
+  .cid-u5PQBJWf8V .item-title {
+      color:#ffffff;
+  }
+
+  .cid-u5PQBJWf8V .content-head {
+      max-width: 800px;
+  }
+    .navbar {
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        z-index: 1000; 
+        background: #371D10;
+        font-family: calibri;
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+      .navdiv {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0; /* Equal top and bottom padding */
+      }
+      .navdiv ul {
+        display: flex;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-left: auto; /* Pushes the list items to the right */
+      }
+      .navdiv ul li {
+        margin-left: 20px; /* Add some spacing between list items if needed */
+        display: inline-block; /* Display list items inline */
+      }
+      .navdiv ul li a {
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 25px;
+        text-decoration: none;
+      }
+      /* Change color of a element inside li on hover */
+      .navdiv ul li:hover a {
+        color:#bda981 ; /* Change the color of the link text to white */
+        transform: scale(1.1); 
+      }
+</style>
+<nav class="navbar">
+<div class="navdiv">
+<ul>
+<li><a href="choice">Home</a></li>
+<li><a href="postRecipe">Post</a></li>
+<li><a href="welcome">Search</a></li>
+<li><a href="about">About us</a></li>
+<li><a href="profile">Profile</a></li>
+</ul>
+</div>
+</nav>
+<section class="blog-2 cid-u5PQBJWf8V" id="blog-2-u5PQBJWf8V">
+
+  <div class="container-fluid">
+      <div class="row justify-content-center mb-5">
+          <div class="col-12 content-head">
+              <div class="mbr-section-head">
+                  <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                      <strong>Here are your blends</strong>
+                  </h4>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div  th:each="recipe : ${recipes}"  th:attr="data-recipe-id=${recipe.id}" class="item features-image col-12 col-md-6 col-lg-3 active">
+              <div class="item-wrapper">
+                  <div class="item-img mb-3">
+                  		<img th:src="'data:image/jpeg;base64,' + ${recipe.imageData}" alt="Recipe Image">
+                  		
+                  </div>
+                  <div class="item-content align-left">
+                      <h5 th:text="${recipe.author.username}" class="item-title mbr-fonts-style mt-0 mb-3 display-7">
+                          FoodType
+                      </h5>
+                      <h6 th:text="${recipe.dishName}" class="item-subtitle mbr-fonts-style mb-3 display-5">
+                      </h6>
+
+                      <div th:onclick="goToDetails(/*[[${recipe.id}]]*/)" th:id="'details-' + ${recipe.id}"  class="mbr-section-btn item-footer">
+                          <h3 th:onclick="goToDetails(/*[[${recipe.id}]]*/)" class="btn item-btn btn-primary display-7">
+                              Explore
+                          </h3>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+  </div>
+</section>
+
+</body>
+</html>

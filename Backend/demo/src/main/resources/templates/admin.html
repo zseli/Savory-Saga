@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+<style>
+         body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        overflow: hidden; /* Hide scroll bars */
+    }
+    #background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -1; /* Place it behind other content */
+    }
+          .navbar {
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        z-index: 1000; 
+        background: #371D10;
+        font-family: calibri;
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+      .navdiv {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0; /* Equal top and bottom padding */
+      }
+      .navdiv ul {
+        display: flex;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-left: auto; /* Pushes the list items to the right */
+      }
+      .navdiv ul li {
+        margin-left: 20px; /* Add some spacing between list items if needed */
+        display: inline-block; /* Display list items inline */
+      }
+      .navdiv ul li a {
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 25px;
+        text-decoration: none;
+      }
+      /* Change color of a element inside li on hover */
+      .navdiv ul li:hover a {
+        color:#bda981 ; /* Change the color of the link text to white */
+        transform: scale(1.1); 
+      }
+      #dishNamehref{
+       color: black; /* Change color to black or any color you prefer */
+    	text-decoration: none; /* Remove underline */
+    	font-style: italic; /* Make it italic */
+    	text-transform: capitalize; /* Capitalize the first letter */
+      }
+      .card-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top:80;
+    margin-left:20px;
+    max-width: 1000px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+.card {
+    flex: 0 0 calc(33.333% - 20px); 
+    margin-top:20px;/* Adjust the width of each card */
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    margin-bottom: 0.5rem;
+}
+
+.collapse {
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.collapse.show {
+    display: block;
+}
+      
+</style>
+</head>
+<body>
+<nav class="navbar">
+<div class="navdiv">
+<ul>
+<li><a href="choice">Home</a></li>
+<li><a href="postRecipe">Post</a></li>
+<li><a href="welcome">Search</a></li>
+<li><a href="/profile">Profile</a></li>
+<li><a href="logout">Logout</a></li>
+</ul>
+</div>
+</nav>
+<!-- Background Image -->
+<img id="background-image" src="/recipeimages/addrecipebg.png" alt="Burger Image">
+<!-- Background Overlay -->
+<div id="background-overlay"></div>
+<!-- Content -->
+<div class="card-deck">
+    <div th:each="user : ${users}" class="card">
+        <div class="card-body">
+            <h5 class="card-title">User Data</h5>
+            <p class="card-text">Username: <span th:text="${user.username}"></span></p>
+            <p class="card-text">Role: <span th:text="${user.role}"></span></p>
+            <p class="card-text">Email: <span th:text="${user.email}"></span></p>
+            <p class="card-text" th:if="${user.recipes != null}">Shared Recipes: <span th:text="${#lists.size(user.recipes)}"></span></p>
+            
+        </div>
+    </div>
+</div>
+</body>
+</html>

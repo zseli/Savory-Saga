@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Cards</title>
+<style>
+ body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-end; /* Align cards to the right side */
+        align-items: center;
+        height: 100vh;
+        position: relative;
+        background-image: url('/recipeimages/addrecipebg.png');
+        background-size: cover;
+        background-position: center;
+    }
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Black transparent overlay */
+        z-index: -1;
+    }
+    .card-container {
+        perspective: 1000px;
+        margin: 10px 20px 10px 10px; /* Adjust margin for left space */
+    }
+    .card {
+        width: 200px;
+        height: 200px; /* Set fixed height for the card */
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s;
+        cursor: pointer;
+    }
+    .card.flip {
+        transform: rotateY(180deg);
+    }
+    .card-face {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        backface-visibility: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-front {
+        background-size: cover;
+        background-position: center;
+        z-index: 2; /* Ensure front face is on top */
+    }
+    .card-back {
+        background-color: #808080; /* Gray color for back face */
+        transform: rotateY(180deg);
+        z-index: 1; /* Ensure back face is behind front face */
+    }
+    .card-content {
+        padding: 20px;
+        text-align: center;
+        color: #fff; /* Text color in white */
+    }
+    .card-content h2 {
+        transition: color 0.3s ease;
+    }
+    /* Popup styles */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+ 
+    .popup-content {
+      background-color:#D2B48C; /* Semi-transparent white background */
+      color: #000; /* Text color */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      position: relative; /* Add position relative to the popup content */
+    }
+ 
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      color: #000; /* Close button color */
+    }
+ 
+    /* Form styles */
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+ 
+    input[type="text"],
+    input[type="password"],
+    input[type="submit"] {
+      margin: 10px 0;
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+ 
+    input[type="submit"] {
+      background-color: #fff; /* Change submit button background color to white */
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+ 
+    input[type="submit"]:hover {
+      background-color: #eee; /* Lighten submit button background color on hover */
+    }
+    
+</style>
+</head>
+<body>
+<div class="card-container">
+    <div class="card" onmouseover="flipCard(this)" onmouseout="flipCard(this)" onclick="openSearch()">
+        <div class="card-face card-front" style="background-image: url('/recipeimages/foods.png');">
+            <div class="card-content">
+                <h2>Search your blends</h2>
+            </div>
+        </div>
+        <div class="card-face card-back">
+            <div class="card-content">
+                <p>Search for your favorite blends here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-container">
+    <div class="card" onmouseover="flipCard(this)" onmouseout="flipCard(this)" onclick="checkLogin()">
+        <div class="card-face card-front" style="background-image: url('/recipeimages/cooking.png');">
+            <div class="card-content">
+                <h2>Wanna share your recipe</h2>
+            </div>
+        </div>
+        <div class="card-face card-back">
+            <div class="card-content">
+                <p>Share your own recipe with the world.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-container">
+    <div class="card" onmouseover="flipCard(this)" onmouseout="flipCard(this)" onclick="checkLogin2()">
+        <div class="card-face card-front" style="background-image: url('/recipeimages/chef.png');">
+            <div class="card-content">
+                <h2>See my profile</h2>
+            </div>
+        </div>
+        <div class="card-face card-back">
+            <div class="card-content">
+                <p>View and manage your profile details.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Login Popup -->
+  <div id="loginPopup" class="popup-overlay">
+    <div class="popup-content">
+      <span class="close-button" onclick="closeLoginPopup()">&times;</span>
+      <h2>Login first</h2>
+      <form action="postlogin" method="post">
+        <input type="text" placeholder="email" name="email" id="email">
+        <input type="password" placeholder="Password" name="password" id="password">
+        <input type="submit" value="Log In">
+      </form>
+      <p>Don't have an account? <a href="signup">Sign Up</a></p>
+    </div>
+  </div>
+ 
+  <!-- Signup Popup -->
+  <div id="signupPopup" class="popup-overlay">
+    <div class="popup-content">
+      <span class="close-button" onclick="closeSignupPopup()">&times;</span>
+      <h2>Sign Up</h2>
+      <form action="">
+        <input type="text" placeholder="username">
+        <input type="password" placeholder="Password">
+        <input type="password" placeholder="Confirm Password">
+        <input type="submit" value="Sign Up">
+      </form>
+      <p>Already have an account? <a href="#" onclick="switchToLogin()">Log In</a></p>
+    </div>
+  </div>
+ 
+  <script>
+   let loginRequired = "[[${loginRequired}]]";
+  
+  function checkLogin() {
+      if(loginRequired=="yes") {
+    	  console.log(loginRequired);
+          openLoginPopup(); // Open the login popup if loginRequired is true
+      } else {
+    	  console.log(loginRequired);
+          window.location.href = "/postRecipe"; // Redirect to /addrecipe if loginRequired is false
+      }
+  }
+  function checkLogin2() {
+      if(loginRequired=="yes") {
+    	  console.log(loginRequired);
+          openLoginPopup(); // Open the login popup if loginRequired is true
+      } else {
+    	  console.log(loginRequired);
+          window.location.href = "/profile"; // Redirect to /addrecipe if loginRequired is false
+      }
+  }
+  function openSearch(){
+	  window.location.href = "/welcome";
+  }
+  function openLoginPopup() {
+      document.getElementById("loginPopup").style.display = "flex";
+    }
+ 
+    function closeLoginPopup() {
+      document.getElementById("loginPopup").style.display = "none";
+    }
+ 
+    function openSignupPopup() {
+      document.getElementById("signupPopup").style.display = "flex";
+    }
+ 
+    function closeSignupPopup() {
+      document.getElementById("signupPopup").style.display = "none";
+    }
+ 
+    function switchToSignup() {
+      closeLoginPopup();
+      openSignupPopup();
+    }
+ 
+    function switchToLogin() {
+      closeSignupPopup();
+      openLoginPopup();
+    }
+    function flipCard(card) {
+        card.classList.toggle('flip');
+    }
+  </script>
+
+</body>
+</html>

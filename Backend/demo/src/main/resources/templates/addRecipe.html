@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Recipe</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('recipeimages/addrecipebg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+ 
+        .container {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 400px;
+            max-width: 90%;
+            position: relative; /* Added position relative for absolute positioning */
+        }
+ 
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+ 
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+ 
+        input[type="text"],
+        textarea {
+            width: calc(100% - 60px); /* Decreased the width */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.8); /* Set input background color */
+            transition: transform 1s ease-in-out; /* Adjusted transition duration */
+        }
+ 
+        .ingredient-input {
+            width: 50%; /* Set width to 50% for add ingredient input field */
+        }
+ 
+        .step-input {
+            width: 50%; /* Set width to 50% for add step input field */
+        }
+ 
+        .flip-animation {
+            animation: flip 1s ease-in-out; /* Adjusted animation duration */
+        }
+ 
+        @keyframes flip {
+            from {
+                transform: rotateY(90deg);
+            }
+            to {
+                transform: rotateY(0deg);
+            }
+        }
+ 
+        button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: box-shadow 0.3s;
+        }
+ 
+        button:hover {
+            background-color: #333; /* Darken on hover */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+ 
+        .ingredient-item,
+        .step-item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+ 
+        .ingredient-item input[type="text"],
+        .step-item input[type="text"] {
+            flex: 1;
+        }
+ 
+        .action-button {
+            background-color: #000; /* Black background */
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            margin-right: 5px; /* Adjusted margin */
+            margin-left: 5px; /* Adjusted margin */
+        }
+ 
+        .submit-container {
+            text-align: center;
+        }
+ 
+        .submit-container button {
+            margin: 0 auto;
+            display: block;
+        }
+          .navbar {
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        z-index: 1000; 
+        background: #371D10;
+        font-family: calibri;
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+      .navdiv {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0; /* Equal top and bottom padding */
+      }
+      .navdiv ul {
+        display: flex;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-left: auto; /* Pushes the list items to the right */
+      }
+      .navdiv ul li {
+        margin-left: 20px; /* Add some spacing between list items if needed */
+        display: inline-block; /* Display list items inline */
+      }
+      .navdiv ul li a {
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 25px;
+        text-decoration: none;
+      }
+      /* Change color of a element inside li on hover */
+      .navdiv ul li:hover a {
+        color:#bda981 ; /* Change the color of the link text to white */
+        transform: scale(1.1); 
+      }
+</style>
+</head>
+<body>
+<nav class="navbar">
+<div class="navdiv">
+<ul>
+<li><a href="choice">Home</a></li>
+<li><a href="welcome">Search</a></li>
+<li><a href="about">About</a></li>
+<li><a href="profile">Profile</a></li>
+</ul>
+</div>
+</nav>
+<div class="container">
+<h1>Add Recipe</h1>
+<form action="/upload" method="post" enctype="multipart/form-data">
+<label for="dishName">Dish Name:</label>
+<input type="text" id="dishName" name="dishName">
+
+<label for="image">Image:</label>
+<input type="file" id="image" name="file" accept="image/*" required><br><br>
+ 
+            <label for="ingredients">Ingredients:</label>
+<div id="ingredient-list">
+<div class="ingredient-item">
+<input type="text" name="ingredients[]" class="ingredient-input" placeholder="Add ingredient">
+<button type="button" class="action-button delete-button" onclick="deleteItem(this)">−</button>
+<button type="button" class="action-button" onclick="addItem('ingredient-list')">+</button>
+</div>
+</div>
+
+ 
+            
+<label for="steps">Steps:</label>
+<div id="step-list">
+<div class="step-item">
+<input type="text" name="steps[]" class="step-input" placeholder="Add step">
+<button type="button" class="action-button delete-button" onclick="deleteItem(this)">−</button>
+<button type="button" class="action-button" onclick="addItem('step-list')">+</button>
+</div>
+</div>
+ 
+            <div class="submit-container">
+<button type="submit">Submit</button>
+</div>
+</form>
+</div>
+ 
+    <script>
+        function addItem(containerId) {
+            const container = document.getElementById(containerId);
+            const item = document.createElement('div');
+            item.classList.add(containerId === 'ingredient-list' ? 'ingredient-item' : 'step-item');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = containerId === 'ingredient-list' ? 'ingredients[]' : 'steps[]';
+            input.placeholder = containerId === 'ingredient-list' ? 'Add ingredient' : 'Add step';
+            input.classList.add('flip-animation'); // Apply flip animation class
+            input.classList.add(containerId === 'ingredient-list' ? 'ingredient-input' : 'step-input'); // Add specific class for styling
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '−'; // Minus sign as content
+            deleteButton.type = 'button';
+            deleteButton.classList.add('action-button', 'delete-button');
+            deleteButton.onclick = function () {
+                item.remove();
+            };
+            const addButton = document.createElement('button');
+            addButton.textContent = '+'; // Plus sign as content
+            addButton.type = 'button';
+            addButton.classList.add('action-button');
+            addButton.onclick = function () {
+                addItem(containerId);
+            };
+            item.appendChild(input);
+            item.appendChild(deleteButton);
+            item.appendChild(addButton);
+            container.appendChild(item);
+        }
+ 
+        function deleteItem(button) {
+            button.parentNode.remove();
+        }
+</script>
+</body>
+</html>
