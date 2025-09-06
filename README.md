@@ -31,7 +31,9 @@ The platform allows users to explore, share, and interact with food blog posts w
 
 ## 📂 Project Structure
 savory-saga/
+
 ├── backend/ # Spring Boot microservices
+
 └── frontend/ # Angular application
 
 ## ⚙️ Getting Started
